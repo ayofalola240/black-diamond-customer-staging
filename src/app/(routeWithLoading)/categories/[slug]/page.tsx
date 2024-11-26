@@ -15,6 +15,7 @@ export default async function Page({ params: { slug }, searchParams }: IProps) {
   const page = Number(searchParams?.page) || 1;
   const limit = Number(searchParams?.limit) || pageLimit;
   const category = decodeURIComponent(slug);
+  console.log(category);
   const auctions = await getAuctionByCategory({
     limit,
     page,

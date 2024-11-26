@@ -4,15 +4,16 @@ import { authRoutes, privateRoutes } from "./lib/utils";
 export function middleware(request: NextRequest) {
   const nextUrl = request.nextUrl;
   const isLoggedIn = request.cookies.get("jwt");
-  const isPrivateRoute = privateRoutes.some((route) =>
-    nextUrl.pathname.startsWith(route)
-  );
-
   const isApiRoute = nextUrl.pathname.startsWith("/api");
 
   if (isApiRoute) {
     return NextResponse.next(); // Skip middleware for API routes
   }
+
+  const isPrivateRoute = privateRoutes.some((route) =>
+    nextUrl.pathname.startsWith(route)
+  );
+
   /**
    * If user is logged in and is trying to access a public route, Redirect them to the /dashboard
    */
