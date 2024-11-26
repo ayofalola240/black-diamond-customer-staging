@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { authRoutes, privateRoutes } from "./lib/utils";
 
 export function middleware(request: NextRequest) {
@@ -7,6 +7,12 @@ export function middleware(request: NextRequest) {
   const isPrivateRoute = privateRoutes.some((route) =>
     nextUrl.pathname.startsWith(route)
   );
+
+  const isApiRoute = nextUrl.pathname.startsWith("/api");
+
+  if (isApiRoute) {
+    return NextResponse.next(); // Skip middleware for API routes
+  }
   /**
    * If user is logged in and is trying to access a public route, Redirect them to the /dashboard
    */
